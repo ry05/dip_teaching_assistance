@@ -20,5 +20,5 @@ Would love it if there are **volunteers** interested in contributing towards thi
 
 ### Want to meet over a cup of coffee to discuss about this?
 **Mail** - yadramshankar@gmail.com <br>
-**Twitter Handle** - @thedatacrack
+**Twitter Handle** - <a href="https://twitter.com/thedatacrack">@thedatacrack</a>
 
