@@ -1,7 +1,7 @@
 # DIPTA - Digital Image Processing Teaching Assistant
 Teaching Assistance Application for Digital Image Processing Techniques
 
-**Original Author** - Ramshankar Yadhunath (@ry05)
+**Original Author** - Ramshankar Yadhunath (@ry05) <br>
 **Guide** - Mrs. Jyotsana C (CSE Department, Amrita School of Engineering, Bengaluru)
 
 **Purpose of project** - Initially intended as a **submission for a 10 mark mini-project** during my 5th semester as a part of the **Digital Image Processing(DIP)** elective.
