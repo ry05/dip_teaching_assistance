@@ -19,6 +19,6 @@ At present, the project has a lot of areas of improvement. A few that I can iden
 Would love it if there are **volunteers** interested in contributing towards this idea.
 
 ### Want to meet over a cup of coffee to discuss about this?
-**Mail** - yadramshankar@gmail.com
+**Mail** - yadramshankar@gmail.com <br>
 **Twitter Handle** - @thedatacrack
 
