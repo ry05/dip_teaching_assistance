@@ -182,8 +182,8 @@ class DipApp(tk.Tk):
         #-----Initializing the multiple frames-------------
         """ Each frame represents a page """
         self.frames={}
-        for F in (StartPage, Menu, Image_Def, Eye, Sampling_Quantization, Dist_Measure, Dip_Core,
-                  Image_Enhancement, Neighbours):
+        for F in (StartPage, Menu, Image_Def, Eye, Sampling_Quantization, Dist_Measure, Intensity_Trans1, Intensity_Trans2, 
+                  Dip_Core, Image_Enhancement, Neighbours):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
@@ -292,10 +292,10 @@ class Menu(tk.Frame):
         def_button.image = definition  # keep a reference of the image
         def_button.place(x=375, y=250)
         
-        #------DIP CORE TECHNIQUES BUTTON------
-        dip = PhotoImage(file="Graphic_Content\dip_techniques.png") #IMAGE
+        #------INTENSITY TRANSFORMATIONS BUTTON------
+        dip = PhotoImage(file="Graphic_Content\intensity_trans.png") #IMAGE
         dip_button = Button(self, image=dip, bg='white',
-                            command=lambda: controller.show_frame("Dip_Core"))
+                            command=lambda: controller.show_frame("Intensity_Trans1"))
         dip_button.image = dip  # keep a reference of the image
         dip_button.place(x=650, y=250)
         
@@ -622,6 +622,143 @@ class Dist_Measure(tk.Frame):
         back_button = Button(self, image=back, bg='white', height=30, width=40, command=lambda: controller.show_frame("Menu"))
         back_button.image = back
         back_button.place(x=20, y=600)
+        
+
+class Intensity_Trans1(tk.Frame):
+    """
+    =========================================================================
+    - Basic Constant Arithmetic of Images
+    
+    It consists of 3 member functions :
+    > add_img()
+    > sub_img()
+    > thresh()
+    > __init__()
+    =========================================================================
+    """ 
+    def add_img(self):
+        img = cv2.imread("Input_Images\\doggo.png",0) # load it in grayscale
+        const = float(self.const_value.get())
+        img = cv2.add(img,const)
+        cv2.imshow("Adding a Constant", img)
+        
+    def sub_img(self):
+        img = cv2.imread("Input_Images\\doggo.png",0) # load it in grayscale
+        const = -(float(self.const_value.get()))
+        img = cv2.add(img,const)
+        cv2.imshow("Adding a Constant", img)
+        
+    def thresh(self):
+        img = cv2.imread("Input_Images\\doggo.png",0) # load it in grayscale
+        thresh = float(self.thresh_value.get())
+        retval, threshold = cv2.threshold(img, thresh, 255, cv2.THRESH_BINARY)
+        cv2.imshow("Thresholded Image", threshold)
+    
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent, bg=bkground) #sets background to orange
+        self.controller = controller
+
+        #--------HEADING LABEL------------------
+        title = Label(self, text="Intensity Transformations", font=(heading_font, heading_size, "bold"),
+                      bg="#ffffff", fg='#1e365c')
+        title.pack()
+        
+        #-------BASIC ARITHMETIC ON IMAGES--------------
+        arith = Label(self, text="Basic Arithmetic - With Constant", font=(sub_heading_font, sub_heading_size),
+                      bg="#ffffff", fg=sub_heading_color)
+        arith.place(x=100, y=100)
+        
+        #--------------INPUT IMAGE---------------------
+        #doggo = PhotoImage(file="Input_Images\dog.jpg")
+        doggo=PhotoImage(file="Input_Images\\doggo.png")
+        doggo_label = Label(self, image=doggo, bg=bkground)
+        doggo_label.image = doggo
+        doggo_label.place(x=100, y=180)
+        
+        #-----------ADD / SUBTRACT BUTTON SET------------
+        add = PhotoImage(file="Graphic_Content\\add.png")
+        add_button = Button(self, image=add , bg='white', height=80, width=80, command=self.add_img)
+        add_button.image = add 
+        add_button.place(x=400, y=240)
+        
+        sub = PhotoImage(file="Graphic_Content\\subtract.png")
+        sub_button = Button(self, image=sub, bg='white', height=80, width=80, command=self.sub_img)
+        sub_button.image = sub
+        sub_button.place(x=600, y=240)
+        
+        #----------ENTRY BOX FOR ENTERING CONSTANT VALUE---------------
+        value_label = Label(self, text="Enter the Constant", font=(sub_heading_font, 20),
+                      bg="#ffffff", fg=sub_heading_color)
+        value_label.place(x=400, y=370)
+        self.const_value = Entry(self, bg='white')
+        self.const_value.place(x=570, y=380)
+        
+        #-----------THRESHOLDING THE IMAGE-------------------
+        thresh = Label(self, text="Thresholding Image", font=(sub_heading_font, sub_heading_size),
+                      bg="#ffffff", fg=sub_heading_color)
+        thresh.place(x=100, y=430)
+        
+        #----------ENTRY BOX FOR ENTERING THRESHOLD VALUE---------------
+        thresh_label = Label(self, text="Enter the Threshold", font=(sub_heading_font, 20),
+                      bg="#ffffff", fg=sub_heading_color)
+        thresh_label.place(x=100, y=500)
+        self.thresh_value = Entry(self, bg='white')
+        self.thresh_value.place(x=270, y=510)
+        
+        #------PLAY BUTTON------
+        play = PhotoImage(file="Graphic_Content\\next_button.png")
+        play_button = Button(self, image=play, bg='white', height=30, width=40, command=self.thresh)
+        play_button.image = play
+        play_button.place(x=500, y=500)
+        
+        #------BACK BUTTON------
+        back = PhotoImage(file="Graphic_Content\\back_button.png")
+        back_button = Button(self, image=back, bg='white', height=30, width=40, command=lambda: controller.show_frame("Menu"))
+        back_button.image = back
+        back_button.place(x=20, y=600)
+        
+        #------FORWARD BUTTON------
+        back = PhotoImage(file="Graphic_Content\\forward_button.png")
+        back_button = Button(self, image=back, bg='white', height=30, width=40, command=lambda: controller.show_frame("Intensity_Trans2"))
+        back_button.image = back
+        back_button.place(x=830, y=600)
+        
+class Intensity_Trans2(tk.Frame):
+    """
+    =========================================================================
+    - Basic Intensity Transformation Operations
+    - Histogram Processing
+    
+    It consists of 1 member function :
+    > __init__()
+    =========================================================================
+    """ 
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent, bg=bkground) #sets background to orange
+        self.controller = controller
+
+        #--------HEADING LABEL------------------
+        title = Label(self, text="Intensity Transformations", font=(heading_font, heading_size, "bold"),
+                      bg="#ffffff", fg='#1e365c')
+        title.pack()
+        
+        #-------BASIC ARITHMETIC ON IMAGES--------------
+        trans_basic = Label(self, text="Basic Transformations", font=(sub_heading_font, sub_heading_size),
+                      bg="#ffffff", fg=sub_heading_color)
+        trans_basic.place(x=100, y=100)
+        
+        
+         #------BACK BUTTON------
+        back = PhotoImage(file="Graphic_Content\\back_button.png")
+        back_button = Button(self, image=back, bg='white', height=30, width=40, command=lambda: controller.show_frame("Intensity_Trans1"))
+        back_button.image = back
+        back_button.place(x=20, y=600)
+        
+        #------FORWARD BUTTON------ # ADD FUNCTIONALITY HERE
+        back = PhotoImage(file="Graphic_Content\\forward_button.png")
+        back_button = Button(self, image=back, bg='white', height=30, width=40, command=lambda: controller.show_frame("StartPage"))
+        back_button.image = back
+        back_button.place(x=830, y=600)
 
 class Dip_Core(tk.Frame):
     def __init__(self, parent, controller):
