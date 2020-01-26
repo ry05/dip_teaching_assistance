@@ -74,6 +74,7 @@ from tkinter import filedialog
 import tkinter.messagebox
 from PIL import Image, ImageTk
 import cv2
+import matplotlib.pyplot as plt
 
 import os
 import sys
@@ -182,8 +183,8 @@ class DipApp(tk.Tk):
         #-----Initializing the multiple frames-------------
         """ Each frame represents a page """
         self.frames={}
-        for F in (StartPage, Menu, Image_Def, Eye, Sampling_Quantization, Dist_Measure, Intensity_Trans1, Intensity_Trans2, 
-                  Dip_Core, Image_Enhancement, Neighbours):
+        for F in (StartPage, Menu, Image_Def, Eye, Sampling_Quantization, Dist_Measure, Intensity_Trans1, Intensity_Trans2,
+                  Intensity_Trans3, Dip_Core, Image_Enhancement, Neighbours):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
@@ -669,7 +670,6 @@ class Intensity_Trans1(tk.Frame):
         arith.place(x=100, y=100)
         
         #--------------INPUT IMAGE---------------------
-        #doggo = PhotoImage(file="Input_Images\dog.jpg")
         doggo=PhotoImage(file="Input_Images\\doggo.png")
         doggo_label = Label(self, image=doggo, bg=bkground)
         doggo_label.image = doggo
@@ -727,12 +727,17 @@ class Intensity_Trans2(tk.Frame):
     """
     =========================================================================
     - Basic Intensity Transformation Operations
-    - Histogram Processing
     
     It consists of 1 member function :
     > __init__()
     =========================================================================
     """ 
+    def image_open(self):
+        image = filedialog.askopenfilename(initialdir="/Input_Images/", title="Select Image")
+        return image
+    
+    # add other kinds of functions 
+    
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, bg=bkground) #sets background to orange
         self.controller = controller
@@ -747,8 +752,113 @@ class Intensity_Trans2(tk.Frame):
                       bg="#ffffff", fg=sub_heading_color)
         trans_basic.place(x=100, y=100)
         
+        #-----------TABULAR REPRESENTATIONS----------------
         
-         #------BACK BUTTON------
+        ##---------ROW HEADERS-----------
+        """
+        col1_load = Label(self, text="Input", font=(sub_heading_font, 30),
+                      bg="#ffffff", fg=sub_heading_color)
+        col1_load.place(x=100, y=200)
+        """
+        
+        col1_formula= Label(self, text="Formula", font=(sub_heading_font, 30),
+                      bg="#ffffff", fg=sub_heading_color)
+        col1_formula.place(x=100, y=280)
+        
+        col1_param = Label(self, text="Params", font=(sub_heading_font, 30),
+                      bg="#ffffff", fg=sub_heading_color)
+        col1_param.place(x=100, y=360)
+        
+        col1_output = Label(self, text="Output", font=(sub_heading_font, 30),
+                      bg="#ffffff", fg=sub_heading_color)
+        col1_output.place(x=100, y=480)
+        
+        ##-----------NEGATIVE------------
+        neg_title = Label(self, text="Negative", font=(sub_heading_font, 30),
+                      bg="#ffffff", fg=sub_heading_color)
+        neg_title.place(x=250, y=200)
+        
+        """
+        neg_load = PhotoImage(file="Graphic_Content\\load_image.png")
+        neg_load_button = Button(self, image=neg_load, bg='white', height=40, width=50)
+        neg_load_button.image = neg_load
+        neg_load_button.place(x=250, y=200)
+        """
+        
+        neg_formula= Label(self, text="s=L-r-1", font=(sub_heading_font, 20),
+                      bg="#ffffff", fg=sub_heading_color)
+        neg_formula.place(x=250, y=290)
+        
+        neg_param = Label(self, text="None", font=(sub_heading_font, 20),
+                      bg="#ffffff", fg=sub_heading_color)
+        neg_param.place(x=250, y=370)
+        
+        neg_op = PhotoImage(file="Graphic_Content\\output.png")
+        neg_op_button = Button(self, image=neg_op, bg='white', height=40, width=50)
+        neg_op_button.image = neg_op
+        neg_op_button.place(x=250, y=490)
+                
+        ##-----------LOG TRANSFORM------------
+        log_title = Label(self, text="Log", font=(sub_heading_font, 30),
+                      bg="#ffffff", fg=sub_heading_color)
+        log_title.place(x=450, y=200)
+        
+        """
+        log_load = PhotoImage(file="Graphic_Content\\load_image.png")
+        log_load_button = Button(self, image=log_load, bg='white', height=40, width=50)
+        log_load_button.image = log_load
+        log_load_button.place(x=450, y=200)
+        """
+        
+        log_formula= Label(self, text="s=c.log(1+r)", font=(sub_heading_font, 20),
+                      bg="#ffffff", fg=sub_heading_color)
+        log_formula.place(x=450, y=290)
+        
+        log_c_label = Label(self, text="c:", font=(sub_heading_font, 15),
+                      bg="#ffffff", fg=sub_heading_color)
+        log_c_label.place(x=450, y=370)
+        self.log_c_value = Entry(self, bg='white')
+        self.log_c_value.place(x=450, y=400)
+        
+        log_op = PhotoImage(file="Graphic_Content\\output.png")
+        log_op_button = Button(self, image=log_op, bg='white', height=40, width=50)
+        log_op_button.image = log_op
+        log_op_button.place(x=450, y=490)
+        
+        ##-----------GAMMA CORRECTION------------
+        gam_title = Label(self, text="Gamma Law", font=(sub_heading_font, 30),
+                      bg="#ffffff", fg=sub_heading_color)
+        gam_title.place(x=640, y=200)
+        
+        """
+        gam_load = PhotoImage(file="Graphic_Content\\load_image.png")
+        gam_load_button = Button(self, image=gam_load, bg='white', height=40, width=50)
+        gam_load_button.image = gam_load
+        gam_load_button.place(x=640, y=200)
+        """
+        
+        gam_formula= Label(self, text="s=c.r^(gamma)", font=(sub_heading_font, 20),
+                      bg="#ffffff", fg=sub_heading_color)
+        gam_formula.place(x=640, y=290)
+        
+        gam_c_label = Label(self, text="c:", font=(sub_heading_font, 15),
+                      bg="#ffffff", fg=sub_heading_color)
+        gam_c_label.place(x=640, y=370)
+        self.gam_c_value = Entry(self, bg='white')
+        self.gam_c_value.place(x=640, y=400)
+        
+        gam_label = Label(self, text="gamma:", font=(sub_heading_font, 15),
+                      bg="#ffffff", fg=sub_heading_color)
+        gam_label.place(x=640, y=420)
+        self.gam_value = Entry(self, bg='white')
+        self.gam_value.place(x=640, y=450)
+        
+        gam_op = PhotoImage(file="Graphic_Content\\output.png")
+        gam_op_button = Button(self, image=gam_op, bg='white', height=40, width=50)
+        gam_op_button.image = gam_op
+        gam_op_button.place(x=660, y=490)
+        
+        #------BACK BUTTON------
         back = PhotoImage(file="Graphic_Content\\back_button.png")
         back_button = Button(self, image=back, bg='white', height=30, width=40, command=lambda: controller.show_frame("Intensity_Trans1"))
         back_button.image = back
@@ -756,9 +866,70 @@ class Intensity_Trans2(tk.Frame):
         
         #------FORWARD BUTTON------ # ADD FUNCTIONALITY HERE
         back = PhotoImage(file="Graphic_Content\\forward_button.png")
-        back_button = Button(self, image=back, bg='white', height=30, width=40, command=lambda: controller.show_frame("StartPage"))
+        back_button = Button(self, image=back, bg='white', height=30, width=40, command=lambda: controller.show_frame("Intensity_Trans3"))
         back_button.image = back
         back_button.place(x=830, y=600)
+        
+class Intensity_Trans3(tk.Frame):
+    """
+    =========================================================================
+    - Histogram Processing
+    
+    It consists of 3 member functions :
+    > image_open()
+    > gen_hist()
+    > __init__()
+    =========================================================================
+    """ 
+    def image_open(self):
+        image = filedialog.askopenfilename(initialdir="/Input_Images/", title="Select Image")
+        return image
+    
+    def gen_hist(self):
+        image = cv2.imread(self.image_open())
+        grayscaled = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        plt.hist(grayscaled.ravel(), 256, [0, 256]); plt.show()
+    
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent, bg=bkground) #sets background to orange
+        self.controller = controller
+
+        #--------HEADING LABEL------------------
+        title = Label(self, text="Histograms of Images", font=(heading_font, heading_size, "bold"),
+                      bg="#ffffff", fg='#1e365c')
+        title.pack()
+        
+        #-------------HISTOGRAM THEORY-----------
+        hist_what = Label(self, text="What are histograms?", font=(sub_heading_font, sub_heading_size),
+                      bg="#ffffff", fg=sub_heading_color)
+        hist_what.place(x=100, y=100)
+        answer_hist_what = Label(self, text="A histogram is a graphical representation "
+                       "of the pixel intensities in an image.\n"
+                       "Histogram processing is an important step in DIP.\n"
+                       ,bg="#ffffff", fg='#1e365c', justify=LEFT, font=(text_font, text_size))
+        answer_hist_what.place(x=100, y=160)
+        
+        #------------HISTOGRAM ICON--------------- 
+        icon = PhotoImage(file="Graphic_Content\hist_icon.png")
+        image_label = Label(self, image=icon, bg=bkground, height=400, width=400)
+        image_label.image = icon
+        image_label.place(x=200, y=200)
+        
+        #----------FUNCTIONALITY-------------        
+        op_label = Label(self, text="Generate Histogram", font=(text_font, text_size),
+                      bg="#ffffff", fg='#1e365c')
+        op_label.place(x=670, y=280)
+        
+        gam_op = PhotoImage(file="Graphic_Content\\output.png")
+        gam_op_button = Button(self, image=gam_op, bg='white', height=40, width=50, command=self.gen_hist)
+        gam_op_button.image = gam_op
+        gam_op_button.place(x=700, y=300)
+        
+        #------BACK BUTTON------
+        back = PhotoImage(file="Graphic_Content\\back_button.png")
+        back_button = Button(self, image=back, bg='white', height=30, width=40, command=lambda: controller.show_frame("Intensity_Trans2"))
+        back_button.image = back
+        back_button.place(x=20, y=600)
 
 class Dip_Core(tk.Frame):
     def __init__(self, parent, controller):
