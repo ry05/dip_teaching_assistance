@@ -39,23 +39,24 @@ UNIFIED COLOR PALETTE------------------
 
 Background : #ffffff (white)
 Headings : #1e365c
-Sub-headings : #000000 (black) OR #1e365c 
+Sub-headings : #000000 (black) OR #1e365c
 Text : #000000 (black)
 
 """
 # loading the necessary packages
-from tkinter import *
 import tkinter as tk
+from tkinter import PhotoImage
+from tkinter import Label
+from tkinter import Button
+from tkinter import LEFT
+from tkinter import CENTER
 from tkinter import font  as tkfont
 from tkinter import filedialog
-from PIL import Image, ImageTk
+from tkinter import Entry
 import tkinter.messagebox
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
-import os
-import sys
-
 
 """---------------------------Global Variables-------------------------------"""
 ### This section contains all the variables pertaining to the style of the DIP
@@ -146,8 +147,6 @@ class DipApp(tk.Tk):
         frame = self.frames[page_name]
         frame.tkraise()
 
-
-'''StartPage GUI'''
 class StartPage(tk.Frame):
     """
     =========================================================================
@@ -170,10 +169,7 @@ class StartPage(tk.Frame):
         image_label.place(x=250, y=80)
         
         #------START BUTTON------
-        start_button = Button(self, text='START', font=(button_font, button_size),
-                              bg='#1e365c', 
-                              fg='white', height=1, width=10,
-                              command=lambda: controller.show_frame("Menu"))
+        start_button = Button(self, text='START', font=(button_font, button_size), bg='#1e365c', fg='white', height=1, width=10, command=lambda: controller.show_frame("Menu"))
         start_button.place(x=380,y=550)
         
         #------ABOUT THE PROJECT BUTTON-------
@@ -203,43 +199,37 @@ class Menu(tk.Frame):
         
         #------IMAGE DEFINITION BUTTON------
         definition = PhotoImage(file="Graphic_Content\definitions.png") #IMAGE
-        def_button = Button(self, image=definition, bg='white',
-                            command=lambda: controller.show_frame("Image_Def"))
+        def_button = Button(self, image=definition, bg='white', command=lambda: controller.show_frame("Image_Def"))
         def_button.image = definition  # keep a reference of the image
         def_button.place(x=100, y=100)
         
         #------HUMAN EYE DIAGRAM BUTTON------
         eye = PhotoImage(file="Graphic_Content\human_eye.png") #IMAGE
-        eye_button = Button(self, image=eye, bg='white',
-                            command=lambda: controller.show_frame("Eye"))
+        eye_button = Button(self, image=eye, bg='white', command=lambda: controller.show_frame("Eye"))
         eye_button.image = eye  # keep a reference of the image
         eye_button.place(x=375, y=100)
         
         #------SAMPLING AND QUANTIZATION BUTTON------
         definition = PhotoImage(file="Graphic_Content\sampling_quant.png") #IMAGE
-        def_button = Button(self, image=definition, bg='white',
-                            command=lambda: controller.show_frame("Sampling_Quantization"))
+        def_button = Button(self, image=definition, bg='white', command=lambda: controller.show_frame("Sampling_Quantization"))
         def_button.image = definition  # keep a reference of the image
         def_button.place(x=650, y=100)
         
         #------PIXEL NEIGHBOURS BUTTON------
         basics = PhotoImage(file="Graphic_Content\\neighbours.png") #IMAGE
-        basics_button = Button(self, image=basics, bg='white',
-                               command=lambda: controller.show_frame("Neighbours"))
+        basics_button = Button(self, image=basics, bg='white', command=lambda: controller.show_frame("Neighbours"))
         basics_button.image = basics  # keep a reference of the image
         basics_button.place(x=100, y=250)
         
         #------DISTANCE MEASURES BUTTON------
         definition = PhotoImage(file="Graphic_Content\distance_measures.png") #IMAGE
-        def_button = Button(self, image=definition, bg='white', 
-                            command=lambda: controller.show_frame("Dist_Measure"))
+        def_button = Button(self, image=definition, bg='white', command=lambda: controller.show_frame("Dist_Measure"))
         def_button.image = definition  # keep a reference of the image
         def_button.place(x=375, y=250)
         
         #------INTENSITY TRANSFORMATIONS BUTTON------
         dip = PhotoImage(file="Graphic_Content\intensity_trans.png") #IMAGE
-        dip_button = Button(self, image=dip, bg='white',
-                            command=lambda: controller.show_frame("Intensity_Trans1"))
+        dip_button = Button(self, image=dip, bg='white', command=lambda: controller.show_frame("Intensity_Trans1"))
         dip_button.image = dip  # keep a reference of the image
         dip_button.place(x=650, y=250)
         
@@ -291,11 +281,10 @@ class Image_Def(tk.Frame):
         self.controller = controller
 
         #--------HEADING LABEL------------------
-        title = Label(self, text="The Image", font=(heading_font, heading_size, "bold"),
-                      bg="#ffffff", fg='#1e365c')
+        title = Label(self, text="The Image", font=(heading_font, heading_size, "bold"), bg="#ffffff", fg='#1e365c')
         title.pack()
         
-        #--------DEFINITION OF AN IMAGE----------------        
+        #--------DEFINITION OF AN IMAGE---------------   
         definition_im = Label(self, text="Image Definition", font=(sub_heading_font, sub_heading_size), bg="#ffffff", fg="#000000")
         definition_im.place(x=100,y=100)
         answer_im = Label(self, text="An image is defined as a two dimensional function, F(x,y) "
@@ -447,8 +436,7 @@ class Neighbours(tk.Frame):
         self.controller = controller
 
         #--------HEADING LABEL------------------
-        title = Label(self, text="Neighbours of a Pixel", font=(heading_font, heading_size, "bold"),
-                      bg="#ffffff", fg='#1e365c')
+        title = Label(self, text="Neighbours of a Pixel", font=(heading_font, heading_size, "bold"), bg="#ffffff", fg='#1e365c')
         title.pack()
         
         #------------BUTTON FUNCTIONALITIES----------------
@@ -512,16 +500,13 @@ class Neighbours(tk.Frame):
         p9.place(x=470, y=190)
         
         #----------PLACING THE BUTTONS---------------------
-        n4p = Button(self, text="N4P Neighbours", font=(button_font, 15),
-                     bg='#1e365c', fg='white', height=1, width=15,command=neighbours4)
+        n4p = Button(self, text="N4P Neighbours", font=(button_font, 15), bg='#1e365c', fg='white', height=1, width=15,command=neighbours4)
         n4p.place(x=650, y=110)
 
-        ndp = Button(self, text="NDP Neighbours", font=(button_font, 15),
-                     bg='#1e365c', fg='white', height=1, width=15, command=neighboursd)
+        ndp = Button(self, text="NDP Neighbours", font=(button_font, 15), bg='#1e365c', fg='white', height=1, width=15, command=neighboursd)
         ndp.place(x=650, y=210)
 
-        n8p = Button(self, text="N8P Neighbours", font=(button_font, 15), 
-                     bg='#1e365c', fg='white', height=1, width=15, command=neighbours8)
+        n8p = Button(self, text="N8P Neighbours", font=(button_font, 15), bg='#1e365c', fg='white', height=1, width=15, command=neighbours8)
         n8p.place(x=650, y=310)
 
         restButton = Button(self, text="Reset", font=(button_font, 15),
@@ -619,7 +604,7 @@ class Intensity_Trans1(tk.Frame):
         #-----------ADD / SUBTRACT BUTTON SET------------
         add = PhotoImage(file="Graphic_Content\\add.png")
         add_button = Button(self, image=add , bg='white', height=80, width=80, command=self.add_img)
-        add_button.image = add 
+        add_button.image = add
         add_button.place(x=400, y=240)
         
         sub = PhotoImage(file="Graphic_Content\\subtract.png")
@@ -682,7 +667,6 @@ class Intensity_Trans2(tk.Frame):
         image = filedialog.askopenfilename(initialdir="/Input_Images/", title="Select Image")
         return image
     
-    # add other kinds of functions 
     def neg_image(self):
         image = cv2.imread(self.image_open())
         grayscaled = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -834,7 +818,7 @@ class Intensity_Trans3(tk.Frame):
     > gen_hist()
     > __init__()
     =========================================================================
-    """ 
+    """
     def image_open(self):
         image = filedialog.askopenfilename(initialdir="/Input_Images/", title="Select Image")
         return image
@@ -850,8 +834,7 @@ class Intensity_Trans3(tk.Frame):
         self.controller = controller
 
         #--------HEADING LABEL------------------
-        title = Label(self, text="Histograms of Images", font=(heading_font, heading_size, "bold"),
-                      bg="#ffffff", fg='#1e365c')
+        title = Label(self, text="Histograms of Images", font=(heading_font, heading_size, "bold"), bg="#ffffff", fg='#1e365c')
         title.pack()
         
         #-------------HISTOGRAM THEORY-----------
@@ -864,15 +847,14 @@ class Intensity_Trans3(tk.Frame):
                        ,bg="#ffffff", fg='#1e365c', justify=LEFT, font=(text_font, text_size))
         answer_hist_what.place(x=100, y=160)
         
-        #------------HISTOGRAM ICON--------------- 
+        #------------HISTOGRAM ICON---------------
         icon = PhotoImage(file="Graphic_Content\hist_icon.png")
         image_label = Label(self, image=icon, bg=bkground, height=400, width=400)
         image_label.image = icon
         image_label.place(x=200, y=200)
         
-        #----------FUNCTIONALITY-------------        
-        op_label = Label(self, text="Generate Histogram", font=(text_font, text_size),
-                      bg="#ffffff", fg='#1e365c')
+        #----------FUNCTIONALITY------------
+        op_label = Label(self, text="Generate Histogram", font=(text_font, text_size), bg="#ffffff", fg='#1e365c')
         op_label.place(x=670, y=280)
         
         gam_op = PhotoImage(file="Graphic_Content\\output.png")
