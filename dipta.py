@@ -169,7 +169,8 @@ class StartPage(tk.Frame):
         image_label.place(x=250, y=80)
         
         #------START BUTTON------
-        start_button = Button(self, text='START', font=(button_font, button_size), bg='#1e365c', fg='white', height=1, width=10, command=lambda: controller.show_frame("Menu"))
+        start_button = Button(self, text='START', font=(button_font, button_size), bg='#1e365c',
+                              fg='white', height=1, width=10, command=lambda: controller.show_frame("Menu"))
         start_button.place(x=380,y=550)
         
         #------ABOUT THE PROJECT BUTTON-------
@@ -284,7 +285,7 @@ class Image_Def(tk.Frame):
         title = Label(self, text="The Image", font=(heading_font, heading_size, "bold"), bg="#ffffff", fg='#1e365c')
         title.pack()
         
-        #--------DEFINITION OF AN IMAGE---------------   
+        #--------DEFINITION OF AN IMAGE--------------
         definition_im = Label(self, text="Image Definition", font=(sub_heading_font, sub_heading_size), bg="#ffffff", fg="#000000")
         definition_im.place(x=100,y=100)
         answer_im = Label(self, text="An image is defined as a two dimensional function, F(x,y) "
