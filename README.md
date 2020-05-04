@@ -45,4 +45,4 @@ Contributions in any of the following sectors (not an exhaustive list) are highl
 -  Creating "How-to-guides"
 
 ## Find me on
-[Twitter Handle](https://twitter.com/thedatacrack)
+[@thedatacrack](https://twitter.com/thedatacrack)
