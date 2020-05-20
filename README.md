@@ -22,7 +22,10 @@ DIPTA was originally conceived for the following purposes :
 ```
 pip install -r requirements.txt
 ```
--  Run dipta.py using any python compatible editor
+-  Run dipta.py using any python compatible editor. For this, run the following command
+```
+python dipta.py
+```
 -  DIPTA should open as a desktop application then
 
 ## References
